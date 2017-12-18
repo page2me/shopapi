@@ -3739,6 +3739,23 @@ td.buttons .button:last-child {
     border-left-color: transparent;
     border-right-color: transparent;
   }
+  body.responsive #logo {
+    text-align: center;
+    background-position: 50% 50%;
+  }
+  body.responsive #logo * {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    position: static;
+  }
+  body.responsive #logo a {
+    display: inline-block;
+  }
+  body.responsive #logo a > img {
+    width: 100%;
+  }
 }
 @media only screen and (min-width: 769px) and (max-width: 900px) {
   body.responsive .rightsidebar .leftsidebar,
@@ -4008,23 +4025,6 @@ td.buttons .button:last-child {
 @media only screen and (max-width: 480px) {
   body.responsive .tablet, body.responsive .mobile {
     display: none !important;
-  }
-  body.responsive #logo {
-    text-align: center;
-    background-position: 50% 50%;
-  }
-  body.responsive #logo * {
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    position: static;
-  }
-  body.responsive #logo a {
-    display: inline-block;
-  }
-  body.responsive #logo a > img {
-    width: 100%;
   }
   body.responsive .input-groups > [class*="width"] {
     float: none;
