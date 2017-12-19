@@ -4,18 +4,20 @@ new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/categories', 
   if (ds) {
     for (var i in ds) {
       var li = menu.create('li');
-      li.innerHTML = '<a><span>' + ds[i].topic + '</span></a>';
+      li.innerHTML = '<a href="index.html?category_id=' + ds[i].category_id + '"><span>' + ds[i].topic + '</span></a>';
       li.id = ds[i].category_id + '/1';
     }
     new GDDMenu('topmenu');
-    forEach(menu.elems('li'), function () {
-      callClick(this, getProducts);
-    });
-    menu.firstChild.click();
+    var urls = /category_id=([0-9]+)(&page=([0-9]+))?/.exec(window.location.toString());
+    if (urls) {
+      getProducts(urls[1] + '/' + (urls[3] ? urls[3] : 1));
+    } else {
+      menu.firstChild.click();
+    }
   }
 });
-function getProducts() {
-  new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/products/' + this.id, 'limit=20', function (xhr) {
+function getProducts(id) {
+  new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/products/' + id, 'limit=20', function (xhr) {
     var ds = xhr.responseText.toJSON(),
       detail = '',
       item,
@@ -45,7 +47,7 @@ function getProducts() {
           if (i == ds.page) {
             detail += '<strong>' + i + '</strong>';
           } else {
-            detail += '<a id="' + ds.category_id + '/' + i + '" onclick="getProducts.call(this)">' + i + '</a>';
+            detail += '<a href="index.html?category_id=' + ds.category_id + '&amp;page=' + i + '" id="' + ds.category_id + '/' + i + '">' + i + '</a>';
           }
         }
         detail += '</footer>';
