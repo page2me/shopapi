@@ -1,4 +1,6 @@
+console.log('https://oas.kotchasan.com/api.php/categories');
 new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/categories', null, function (xhr) {
+  console.log(xhr.responseText);
   var ds = xhr.responseText.toJSON(),
     menu = $G('categorymenu');
   if (ds) {
@@ -12,12 +14,15 @@ new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/categories', 
     if (urls) {
       getProducts(urls[1] + '/' + (urls[3] ? urls[3] : 1));
     } else {
-      menu.firstChild.click();
+      urls = /category_id=([0-9]+)/.exec(menu.firstChild.firstChild.href);
+      getProducts(urls[1] + '/1');
     }
   }
 });
 function getProducts(id) {
+  console.log('https://oas.kotchasan.com/api.php/products/' + id);
   new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/products/' + id, 'limit=20', function (xhr) {
+    console.log(xhr.responseText);
     var ds = xhr.responseText.toJSON(),
       detail = '',
       item,
