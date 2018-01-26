@@ -12,7 +12,7 @@ new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/categories', 
         // วนลูปสร้างรายการเมนูหมวดหมู่
         for (var i in ds) {
             var li = menu.create('li');
-            li.innerHTML = '<a href="index.html?category_id=' + ds[i].category_id + '"><span>' + ds[i].topic + '</span></a>';
+            li.innerHTML = '<a href="index.html?category_id=' + ds[i].category_id + '" onclick="return getProducts(\'' + ds[i].category_id + '/1\')"><span>' + ds[i].topic + '</span></a>';
             li.id = ds[i].category_id + '/1';
         }
         // เรียกใช้งาน Javascript Drop Down Menu เพื่อให้รองรับ Responsive (ไม่ใช้ก็ได้)
@@ -23,9 +23,9 @@ new GAjax({method: 'GET'}).send('https://oas.kotchasan.com/api.php/categories', 
               // ถ้ามี parameter ครบ ไปโหลดหน้าเว็บที่ต้องการมาแสดง
             getProducts(urls[1] + '/' + (urls[3] ? urls[3] : 1));
         } else {
-           // ถ้าไม่มี ตรวจสอบ category_id จากเมนูรายการแรก
+      // ถ้าไม่มี ตรวจสอบ category_id จากเมนูรายการแรก
             urls = /category_id=([0-9]+)/.exec(menu.firstChild.firstChild.href);
-           // แสดงหน้าแรก
+      // แสดงหน้าแรก
             getProducts(urls[1] + '/1');
         }
     }
@@ -46,6 +46,8 @@ function getProducts(id) {
     // #content ส่วนแสดงผลเนื้อหา
     content = $G('content');
     if (ds) {
+      document.title = ds.category;
+      detail += '<h2>' + ds.category + '</h2>';
       // วนลูปรายการ ds.items เพื่อแสดงรายการสินค้า โดยใช้ griid ในการแสดงผล
       detail += '<div class="document-list thumbview"><div class="row">';
       for (var i in ds.items) {
@@ -70,13 +72,15 @@ function getProducts(id) {
           if (i == ds.page) {
             detail += '<strong>' + i + '</strong>';
           } else {
-            detail += '<a href="index.html?category_id=' + ds.category_id + '&amp;page=' + i + '" id="' + ds.category_id + '/' + i + '">' + i + '</a>';
+            detail += '<a href="index.html?category_id=' + ds.category_id + '&amp;page=' + i + '" id="' + ds.category_id + '/' + i + '" onclick="return getProducts(\'' + ds.category_id + '/' + i + '\')">' + i + '</a>';
           }
         }
         detail += '</footer>';
       }
       // แสดงผลข้อมูลลงใน #content
       content.innerHTML = detail;
+      // เลื่อนขึ้นไปด้านบน
+      window.scrollTo(0, content.getTop() - 10);
     }
   });
   return false;
