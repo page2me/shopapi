@@ -38,3 +38,15 @@ body, li {
 h2 {
   text-align: center;
 }
+h3 {
+  border-bottom: 2px solid #F5F5F5;
+  margin-bottom: 10px;
+}
+h4 {
+  font-size: 1em;
+  font-weight: bold;
+  color: #2196f3;
+}
+em {
+  font-size: 3em;
+}
