@@ -13,5 +13,15 @@ $date = date('Y-m-d');
 foreach ($json as $item) {
   $content .= '<url><loc>http://'.$_SERVER['HTTP_HOST'].'/index.html?category_id='.$item->category_id.'</loc><lastmod>'.$date.'</lastmod><changefreq>daily</changefreq><priority>0.5</priority></url>';
 }
+$json = json_decode(file_get_contents('https://oas.kotchasan.com/api.php/products'));
+foreach ($json->items as $item) {
+  $content .= '<url><loc>http://'.$_SERVER['HTTP_HOST'].'/index.html?id='.$item->id.'</loc><lastmod>'.$date.'</lastmod><changefreq>daily</changefreq><priority>0.5</priority></url>';
+}
+for ($i = 2; $i <= $json->totalpage; $i++) {
+  $json = json_decode(file_get_contents('https://oas.kotchasan.com/api.php/products/'.$i));
+  foreach ($json->items as $item) {
+    $content .= '<url><loc>http://'.$_SERVER['HTTP_HOST'].'/index.html?id='.$item->id.'</loc><lastmod>'.$date.'</lastmod><changefreq>daily</changefreq><priority>0.5</priority></url>';
+  }
+}
 $content .= '</urlset>';
 echo $content;
